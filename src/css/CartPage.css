@@ -1,0 +1,25 @@
+h3, p{
+    margin-left: 20px;
+}
+
+.SavePaletteClass{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+input{
+    text-align: center;
+    width: 290px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    height: 40px;
+}
+
+.HorizontalLine{
+    margin-left: 20px;
+    width: 50vw;
+}
+
+
