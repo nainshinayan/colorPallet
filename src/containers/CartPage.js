@@ -27,9 +27,9 @@ const CartPage = () => {
     if (error || savedPalettes.error) return `Error! ${error.message}`;
     
   
-    let cartItemsList = data?.colorCart?data.colorCart :[] ;
+    let cartItemsList = data?.colorCart ? data.colorCart :[] ;
     let itemView = getItemView(); 
-    let savedPaletteList = savedPalettes.data.savedPalette;
+    let savedPaletteList = savedPalettes?.data?.savedPalette;
     let paletteView = getPaletteView();
 
 
@@ -81,6 +81,7 @@ const CartPage = () => {
       return (
         savedPaletteList?.length ? 
             (<>
+                {!cartItemsList.length ?  <hr className = "HorizontalLine"/> : ""}
                 <h3>Previously saved color palettes</h3>
                 {savedPaletteList.map((eachPalette) => {
                   return(

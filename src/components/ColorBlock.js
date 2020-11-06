@@ -12,26 +12,17 @@ const ColorBlock = ({colorDetail,handleClick,showDelete, showDeleteBlock}) => {
     : "";
 
     let deleteBlock = showDeleteBlock ? <img src={TrashIcon} alt="X"/> : ""
-    function showName(){
-        //console.log("on hover ",colorDetail?.title)
-    }
 
-    function hideName(){
-
-    }
     return(
         <>
             <div 
                 className="Block" 
                 style={{backgroundColor: colorCode}} 
-                onClick= {typeof handleClick == "function" ? handleClick: ()=>{} }
-                onMouseEnter={() => showName()}
-                onMouseLeave={() => hideName()}>
+                onClick= {typeof handleClick == "function" ? handleClick: ()=>{} }>
                     {icon}
                 <div className={showDelete ? "NameInCart" : "NameInPalette"}>
                     {showDeleteBlock ? deleteBlock : colorCode}
                 </div>
-                {/* <div className={showDelete ? "NameInCart" : "NameInPalette"}>Add {colorDetail.title}</div> */}
             </div>
         </>
     )

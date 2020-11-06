@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 
+
 export const GET_COLORS = gql`
   query colors($offset: Int) {
     colors(numResults: 10, resultOffset: $offset) {
@@ -9,6 +10,8 @@ export const GET_COLORS = gql`
     }
   }
 `;
+
+
 
 export const GET_CART_ITEMS = gql`
   query getCartItems{
