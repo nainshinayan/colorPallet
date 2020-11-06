@@ -7,6 +7,7 @@ h3, p{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: baseline;
 }
 
 input{
@@ -20,6 +21,16 @@ input{
 .HorizontalLine{
     margin-left: 20px;
     width: 50vw;
+}
+
+.UserMessage{
+    color: red;
+    font-size: 11px;
+    text-align: center;
+}
+
+.Heading{
+    font-size: 18px;
 }
 
 

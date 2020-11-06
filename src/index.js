@@ -3,24 +3,64 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloClient,ApolloProvider,InMemoryCache } from '@apollo/client';
-import {cache} from '../src/cache';
+import {InMemoryCache,ApolloClient,ApolloProvider } from '@apollo/client';
+//import { ApolloProvider } from '@apollo/react-hooks';
+import { persistCache } from 'apollo3-cache-persist';
+import { typeDefs } from './graphql/schema';
+import { resolvers } from './graphql/resolvers';
+import { GET_CART_ITEMS, GET_SAVED_PALETTE } from './graphql/queries';
 
-const client = new ApolloClient({
-  uri: "https://colourlovers-graphql-api.herokuapp.com/graphql",
-  cache: cache
-});
 
-ReactDOM.render(
-  <ApolloProvider client={client}>
-    <React.StrictMode>
+const cache = new InMemoryCache();
+
+const init = async () => {
+  await persistCache({
+    cache,
+    storage: window.localStorage
+  });
+
+
+  const client = new ApolloClient({
+    uri: "https://colourlovers-graphql-api.herokuapp.com/graphql",
+    cache,
+    typeDefs,
+    resolvers
+  });
+
+
+  try {
+    cache.readQuery({
+      query: GET_CART_ITEMS
+    });
+  } catch (error) {
+    cache.writeQuery({
+      query: GET_CART_ITEMS,
+      data: {
+        colorCart: []
+      }
+    });
+  }
+
+  try {
+    cache.readQuery({
+      query: GET_SAVED_PALETTE
+    });
+  } catch (error) {
+    cache.writeQuery({
+      query: GET_SAVED_PALETTE,
+      data: {
+        savedPalette: []
+      }
+    });
+  }
+
+  const ColorMarket = () => (
+    <ApolloProvider client={client}>
       <App />
-    </React.StrictMode>
-  </ApolloProvider>,
-  document.getElementById('root')
-);
+    </ApolloProvider>
+  );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  ReactDOM.render(<ColorMarket/>, document.getElementById('root'));
+};
+init();
 reportWebVitals();

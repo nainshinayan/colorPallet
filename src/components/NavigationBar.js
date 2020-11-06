@@ -3,23 +3,22 @@ import {NavLink } from 'react-router-dom';
 import '../css/NavigationBar.css';
 import CartIcon from '../resource/CartIcon.svg';
 import NewEngenLogo from '../resource/NewEngen-Logo.svg';
-import { gql, useQuery, } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { GET_CART_ITEMS } from '../graphql/queries';
 
-const GET_CART_COUNT = gql`
-  query GetCartItems {
-    cartItems @client
-  }
-`;
+
+
 
 const NavigationBar = () => {
-    const { data } = useQuery(GET_CART_COUNT);
-
+    const {data} = useQuery(GET_CART_ITEMS);
+    let cartCount = data?.colorCart?.length ? data.colorCart.length :0;
     return (
         <div className = "NavigationBar">
-            <NavLink to="/"><img src={NewEngenLogo}/></NavLink>
+            <NavLink to="/"><img className = "Logo" src={NewEngenLogo}/></NavLink>
             <NavLink to="/Cart">
                 <img src={CartIcon}/>
-                    <span className="CartCount">{data?.cartItems? data.cartItems.length : 0}</span></NavLink>
+                <span className="CartCount">{cartCount}</span>
+            </NavLink>
         </div>
     )
 

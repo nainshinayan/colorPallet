@@ -30,6 +30,12 @@
     color: white;
 }
 
+.Block:Hover {
+    -webkit-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    transform: scale(1.3);
+}
+
 ToolTipHidden :{
     width: 100%;
     line-height: 130px;
@@ -43,3 +49,4 @@ ToolTipHover:{
     position: absolute;
     top: 20px;
 }
+

@@ -2,30 +2,18 @@ import React from 'react';
 import Button from '../components/Button';
 import PaletteContainer from '../components/PaletteContainer';
 import '../css/ColorsPalettePage.css';
-import { gql, useQuery,ApolloConsumer } from '@apollo/client';
-import { cartItemsVar } from '../cache';
+import { useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/react-hooks';
+import { GET_COLORS } from '../graphql/queries';
+import { ADD_TO_CART } from '../graphql/mutations';
 
+const ColorPalettePage = () => {
 
-const GET_COLORS = gql`
-  query colors($offset: Int) {
-    colors(numResults: 10, resultOffset: $offset) {
-      id
-      title
-      hex
-    }
-  }
-`;
+    const [addToCart] = useMutation(ADD_TO_CART);
+    const { loading, error, data,fetchMore } = useQuery(GET_COLORS);
 
-
-const ColorPalettePage = (props) => {
-    const { loading, error, data, fetchMore } = useQuery(GET_COLORS, {
-        variables: {
-            offset: 0,
-            limit: 10
-          },
-    });
     if (loading) return 'Loading...';
-   if (error) return `Error! ${error.message}`;
+    if (error) return `Error! ${error.message}`;
 
 
     function loadMoreColors(){
@@ -43,33 +31,18 @@ const ColorPalettePage = (props) => {
             }
         })
     }
-
-    function addColorToCart(color){
-        cartItemsVar([...cartItemsVar(), color]);
-
-    }
-
     return(
-
-        <ApolloConsumer>
-        {   () => {
-            return(
-            <>
+        <>
             <PaletteContainer 
                 colorList={data.colors} 
                 showDelete={false}
-                handleClick={(colors)=>{addColorToCart(colors)}} 
-                />
+                handleClick={(color)=>{addToCart({variables: {colorInfo:color} })}} 
+            />
             <div className= "ButtonContainer">
                 <Button handleClick={loadMoreColors}>Load More</Button>
             </div>
         </>
-            )
-        }}
-        </ApolloConsumer>
-        
     )
-
 };
 
 export default ColorPalettePage;

@@ -8,5 +8,19 @@
     box-sizing: content-box;
     padding-left: 20px;
     padding-right: 20px;
+    margin-bottom: 20px;
 
 }
+
+.Header{
+    margin-left: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* span {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    margin-bottom : 20px;
+} */

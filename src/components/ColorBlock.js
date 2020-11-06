@@ -2,16 +2,18 @@ import React from 'react';
 import TrashIcon from '../resource/TrashIcon.svg';
 import '../css/ColorBlock.css';
 
-const ColorBlock = ({colorDetail,handleClick,showDelete}) => {
-    let colorCode = "#"+ colorDetail.hex;
+const ColorBlock = ({colorDetail,handleClick,showDelete, showDeleteBlock}) => {
+    let colorCode = colorDetail ? "#"+ colorDetail.hex : "#f1f1f1";
     let icon = showDelete 
     ? (<>
             <div className="DeleteIconStyle"><img src={TrashIcon}/></div>
             <div style = {{clear:"both"}}/>
         </>)
     : "";
+
+    let deleteBlock = showDeleteBlock ? <img src={TrashIcon}/> : ""
     function showName(){
-        console.log("on hover ",colorDetail.title)
+        console.log("on hover ",colorDetail?.title)
     }
 
     function hideName(){
@@ -22,12 +24,12 @@ const ColorBlock = ({colorDetail,handleClick,showDelete}) => {
             <div 
                 className="Block" 
                 style={{backgroundColor: colorCode}} 
-                onClick= {handleClick}
+                onClick= {typeof handleClick == "function" ? handleClick: ()=>{} }
                 onMouseEnter={() => showName()}
                 onMouseLeave={() => hideName()}>
                     {icon}
                 <div className={showDelete ? "NameInCart" : "NameInPalette"}>
-                    {colorCode}
+                    {showDeleteBlock ? deleteBlock : colorCode}
                 </div>
                 {/* <div className={showDelete ? "NameInCart" : "NameInPalette"}>Add {colorDetail.title}</div> */}
             </div>
