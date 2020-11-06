@@ -20,6 +20,7 @@ const PaletteContainer = (props) => {
             handleClick={()=>typeof props.handleClick == "function" ? props.handleClick(colorsList) : ()=>{}}
             ></ColorBlock>
         }
+        
         return (
             <>
                 <div className="PaletteContainer">

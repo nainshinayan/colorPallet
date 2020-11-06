@@ -22,6 +22,7 @@ const CartPage = () => {
 
     const {data,error,loading} = useQuery(GET_CART_ITEMS);
     const savedPalettes = useQuery(GET_SAVED_PALETTE);
+
     if (loading || savedPalettes.loading) return 'Loading...';
     if (error || savedPalettes.error) return `Error! ${error.message}`;
     
@@ -34,12 +35,11 @@ const CartPage = () => {
 
   
     function onSavePalette(){
-      if (!String.prototype.trim) {
-        String.prototype.trim = function () {
-          return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
-        };
+
+      function trim(value){
+          return value.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
       }
-      let palleteName = (textBoxRef.current.value).trim();
+      let palleteName = trim(textBoxRef.current.value);
       if(palleteName == ""){ 
         updateMessage(userMessageMap.noName);
       }else{
@@ -85,6 +85,7 @@ const CartPage = () => {
                 {savedPaletteList.map((eachPalette) => {
                   return(
                     <PaletteContainer 
+                    key = {eachPalette.id}
                     colorList={eachPalette.colors} 
                     listName = {eachPalette.name}
                     handleClick={(color)=>{removeSavedPalette({variables: {name:eachPalette.name} })}}

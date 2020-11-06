@@ -3,7 +3,9 @@ import { GET_CART_ITEMS, GET_SAVED_PALETTE } from './queries';
 export const resolvers = {
   Mutation: {
     addToCart: (_, args, { cache }) => {
-      let color = args.colorInfo;      
+
+      let color = {...args.colorInfo};   
+      color.id = Date.now();  
       const { colorCart } = cache.readQuery({
         query: GET_CART_ITEMS
       });
@@ -40,17 +42,14 @@ export const resolvers = {
         query: GET_SAVED_PALETTE
       });
 
-
       let newPalette = {
-        id:Date.now(),
+        id:args.id,
         name:args.name,
         colors:args.colors
       };
 
-      const data = {savedPalette: [...savedPalette,newPalette]}
+      const data = {savedPalette: [...savedPalette,newPalette]};
       cache.writeQuery({ query: GET_SAVED_PALETTE, data });
-
-
       return data.savedPalette;
     },
 

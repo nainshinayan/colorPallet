@@ -6,14 +6,14 @@ const ColorBlock = ({colorDetail,handleClick,showDelete, showDeleteBlock}) => {
     let colorCode = colorDetail ? "#"+ colorDetail.hex : "#f1f1f1";
     let icon = showDelete 
     ? (<>
-            <div className="DeleteIconStyle"><img src={TrashIcon}/></div>
+            <div className="DeleteIconStyle"><img src={TrashIcon} alt="X"/></div>
             <div style = {{clear:"both"}}/>
         </>)
     : "";
 
-    let deleteBlock = showDeleteBlock ? <img src={TrashIcon}/> : ""
+    let deleteBlock = showDeleteBlock ? <img src={TrashIcon} alt="X"/> : ""
     function showName(){
-        console.log("on hover ",colorDetail?.title)
+        //console.log("on hover ",colorDetail?.title)
     }
 
     function hideName(){
