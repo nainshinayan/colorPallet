@@ -5,3 +5,8 @@
   -ms-user-select:none; 
   user-select:none;    
 }
+
+.notFound{
+  margin-top: 80px;
+  margin-left: 20px;
+}

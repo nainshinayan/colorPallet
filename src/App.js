@@ -14,7 +14,7 @@ function App() {
           <Switch>
             <Route path="/" exact exact component={ColorPalettePage} />
             <Route path="/Cart" component={CartPage} />
-            <Route render={() => <h2>Sorry! Page not found.</h2>} />
+            <Route render={() => <h2 className = "notFound">Sorry! Page not found.</h2>} />
           </Switch>
         </>
       </Router>
