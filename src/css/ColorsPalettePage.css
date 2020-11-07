@@ -21,3 +21,47 @@
 .onHomePage {
     margin-top : 60px;
 }
+
+.Loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -40px;
+  margin-left: -40px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #1e4091;
+  border-right: 16px solid #f8f9fa;
+  border-bottom: 16px solid #F13757;
+  border-left: 16px solid #f8f9fa;
+  width: 80px;
+  height: 80px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.Error{
+  /* height: 100px;
+  width: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -250px;
+  font-size: 40px;
+  font-weight: lighter;
+  text-align: center; */
+  margin-top: 80px;
+  margin-left: 20px;
+}
+

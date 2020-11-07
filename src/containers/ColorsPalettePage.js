@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import { useMutation } from '@apollo/react-hooks';
 import { GET_COLORS } from '../graphql/queries';
 import { ADD_TO_CART } from '../graphql/mutations';
+import appConstant from '../resource/appConstant';
 
 
 const ColorPalettePage = () => {
@@ -35,22 +36,23 @@ const ColorPalettePage = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className= "Loader"></div>;
   }
 
   if (error) {
-    return <div>{JSON.stringify(error)}</div>;
+    return <h3 className = "Error">{appConstant.errorMessage}</h3>;
   }
 
   return (
+
     <>
-      <PaletteContainer style={{ marginTop: "80px" }}
+      <PaletteContainer 
         colorList={data.colors}
         showDelete={false}
         handleClick={(color) => { addToCart({ variables: { colorInfo: color } }) }}
       />
       <div className="ButtonContainer">
-        <Button handleClick={loadMoreColors}>Load More</Button>
+        <Button handleClick={loadMoreColors}>{appConstant.loadMore}</Button>
       </div>
     </>
   )

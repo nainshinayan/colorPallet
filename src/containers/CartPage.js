@@ -6,17 +6,12 @@ import { useQuery, } from '@apollo/client';
 import { GET_CART_ITEMS, GET_SAVED_PALETTE } from '../graphql/queries';
 import { REMOVE_FROM_CART, SAVE_PALETTE, REMOVE_SAVED_PALETTE } from '../graphql/mutations';
 import { useMutation } from '@apollo/react-hooks';
+import appConstant from '../resource/appConstant';
+
 
 const CartPage = () => {
-  /**
-   * user message for input validation
-   */
-  const userMessageMap = {
-    noMessage: "",
-    noName: "Please enter a name!",
-    nameExisting: "The name already exists! Please enter another name."
-  };
-  const [userMessage, updateMessage] = useState(userMessageMap.noMessage);
+
+  const [userMessage, updateMessage] = useState(appConstant.noMessage);
   const textBoxRef = useRef(null);
   /**
    * REMOVE_FROM_CART is a mutation called to remove a cart item in the cache
@@ -39,8 +34,8 @@ const CartPage = () => {
    */
   const savedPalettes = useQuery(GET_SAVED_PALETTE);
 
-  if (loading || savedPalettes.loading) return 'Loading...';
-  if (error || savedPalettes.error) return `Error! ${error.message}`;
+  if (loading || savedPalettes.loading) return <div className= "Loader"></div>
+  if (error || savedPalettes.error) return <h3 className = "Error">{appConstant.errorMessage}</h3>;
 
   let cartItemsList = data?.colorCart ? data.colorCart : [];
   let cartItemView = getCartItemView();
@@ -60,15 +55,15 @@ const CartPage = () => {
     }
     let paletteName = trim(textBoxRef.current.value);
     if (paletteName == "") {
-      updateMessage(userMessageMap.noName);
+      updateMessage(appConstant.noName);
     } else {
       for (var i = 0; i < savedPaletteList.length; i++) {
         if (savedPaletteList[i].name == paletteName) {
-          updateMessage(userMessageMap.nameExisting);
+          updateMessage(appConstant.nameExisting);
           return;
         }
       }
-      updateMessage(userMessageMap.noMessage);
+      updateMessage(appConstant.noMessage);
       /**
        * Function to save the palette is invoked if user enters valid name for palette
        */
@@ -85,20 +80,20 @@ const CartPage = () => {
     return (
       cartItemsList.length ?
         (<>
-          <h3 style={{ marginTop: "80px" }}>Your current cart palette</h3>
+          <h3 className="Information">{appConstant.currentCart}</h3>
           <PaletteContainer
             colorList={cartItemsList}
             showDelete={true}
             handleClick={(color) => { removeFromCart({ variables: { colorInfo: color } }) }} />
-          <p className="Heading">Name and save your color palette</p>
+          <h4>{appConstant.savePaletteInfo}</h4>
           <div className="SavePaletteClass">
             <input ref={textBoxRef} placeholder="Color Palette Name" type="text" />
-            <Button handleClick={(onSavePalette)} customStyle="ButtonforCart">Save Palette</Button>
+            <Button handleClick={(onSavePalette)} customStyle="ButtonforCart">{appConstant.savePalette}</Button>
             <span style={{ margin: "10px" }}></span>
             <div className="UserMessage">{userMessage}</div>
           </div>
           <hr className="HorizontalLine" />
-        </>) : (<h3 style={{ marginTop: "80px" }}>Your cart is empty! Add palette to your cart.</h3>)
+        </>) : (<h3 className="Information">{appConstant.emptyCart}</h3>)
     )
   }
 
@@ -110,7 +105,7 @@ const CartPage = () => {
       savedPaletteList?.length ?
         (<>
           {!cartItemsList.length ? <hr className="HorizontalLine" /> : ""}
-          <h3>Previously saved color palettes</h3>
+          <h3>{appConstant.previousPalette}</h3>
           {savedPaletteList.map((eachPalette) => {
             return (
               <PaletteContainer

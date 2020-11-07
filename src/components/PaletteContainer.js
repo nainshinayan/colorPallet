@@ -1,6 +1,7 @@
 import React from 'react';
 import ColorBlock from './ColorBlock';
 import '../css/ColorsPalettePage.css';
+import appConstant from '../resource/appConstant';
 
 /**
  * This component is used in homepage and cartpage to render list of colors, items in cart, and saved palette.
@@ -14,8 +15,9 @@ const PaletteContainer = (props) => {
    * creates headers for items in cart and saved palette
    */
   function headerView() {
+    let colorSingularOrPlural = (colorsList?.length >1) ? appConstant.colors : appConstant.color;
     return (
-      props.showHeader ? (<div className="Header">{props.listName} - {colorsList?.length} colors</div>) : ""
+      props.showHeader ? (<div className="Header">{props.listName} - {colorsList?.length} {colorSingularOrPlural}</div>) : ""
     )
   }
   /**

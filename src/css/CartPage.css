@@ -1,4 +1,4 @@
-h3, p{
+h3, p, h4{
     margin-left: 20px;
 }
 
@@ -29,8 +29,6 @@ input{
     text-align: center;
 }
 
-.Heading{
-    font-size: 18px;
+.Information{
+  margin-top: 80px;
 }
-
-
