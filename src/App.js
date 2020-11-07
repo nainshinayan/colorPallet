@@ -7,15 +7,15 @@ import './App.css';
 
 function App() {
   return (
-    <div className ="App">
+    <div className="App">
       <Router>
         <NavigationBar />
         <>
-            <Switch>
-              <Route path="/" exact exact component={ColorPalettePage} />
-              <Route path="/Cart" component={CartPage} />
-              <Route render={()=><h2>Sorry! Page not found.</h2>} />
-            </Switch>
+          <Switch>
+            <Route path="/" exact exact component={ColorPalettePage} />
+            <Route path="/Cart" component={CartPage} />
+            <Route render={() => <h2>Sorry! Page not found.</h2>} />
+          </Switch>
         </>
       </Router>
     </div>
