@@ -6,16 +6,16 @@ import NewEngenLogo from '../resource/NewEngen-Logo.svg';
 import { useQuery } from '@apollo/client';
 import { GET_CART_ITEMS } from '../graphql/queries';
 
-
-
-
 const NavigationBar = () => {
+    /**
+     * This query fetches the number of items in the cart from the cache field "colorCart".
+     */
     const {data} = useQuery(GET_CART_ITEMS);
     let cartCount = data?.colorCart?.length ? data.colorCart.length :0;
     return (
         <div className = "NavigationBar">
             <NavLink to="/"><img className = "Logo" src={NewEngenLogo}/></NavLink>
-            <NavLink to="/Cart">
+            <NavLink to="/Cart" className = "Cart">
                 <img src={CartIcon}/>
                 <span className="CartCount">{cartCount}</span>
             </NavLink>

@@ -18,9 +18,6 @@
     font-weight: bold;
 }
 
-/* span {
-    display: flex;
-    flex-flow: row;
-    flex-wrap: wrap;
-    margin-bottom : 20px;
-} */
+.onHomePage {
+    margin-top : 60px;
+}

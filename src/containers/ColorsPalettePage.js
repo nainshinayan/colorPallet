@@ -1,4 +1,3 @@
-import React, {useCallback} from 'react';
 import Button from '../components/Button';
 import PaletteContainer from '../components/PaletteContainer';
 import '../css/ColorsPalettePage.css';
@@ -10,20 +9,30 @@ import { ADD_TO_CART } from '../graphql/mutations';
 
 const ColorPalettePage = () => {
 
+    /**
+     * This useMutation is the mutation method to add the item to the "colorCart" 
+     * field when a color block/tile is clicked on home page.
+     */
     const [addToCart] = useMutation(ADD_TO_CART);
+
+    /**
+     * This fetches response from graphQL server with initial offset set as 0
+     * and number of records as 10. FetchMore fn offers offset based pagination for 
+     * "loadMore" functionality
+     */
     const { loading, error, data, fetchMore } = useQuery(GET_COLORS, {
         variables: {
           offset: 0
         }
       });
-      const loadMoreColors = function(){
-        fetchMore({
-            variables: {
-              offset: data?.colors?.length ? data.colors.length : 0
-            }
-          });
-      }
 
+    const loadMoreColors = function(){
+    fetchMore({
+        variables: {
+            offset: data?.colors?.length ? data.colors.length : 0
+        }
+        });
+    }
 
     if (loading) {
         return <div>Loading...</div>;
@@ -35,7 +44,7 @@ const ColorPalettePage = () => {
 
     return(
         <>
-            <PaletteContainer 
+            <PaletteContainer style ={{marginTop: "80px"}} 
                 colorList={data.colors} 
                 showDelete={false}
                 handleClick={(color)=>{addToCart({variables: {colorInfo:color} })}} 

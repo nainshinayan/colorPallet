@@ -5,48 +5,32 @@
     opacity: 1;
     box-shadow: 0 2px 4px #000000;
     margin: 20px;
-    /* text-align: center;
-    line-height: 122px;
-    font-size: 15px;
-    color: white; */
 }
 .DeleteIconStyle{
     float: right;
     padding: 5px;
 }
 
-.NameInCart{
+.BlockLabel{
     text-align: center;
     /* line-height: 122px; */
     font-size: 15px;
     color: white;
-    position: relative;
-    top: 10%;
+    /* position: relative;
+    top: 10%; */
+    margin-top : 10%;
 }
-.NameInPalette{
+.BlockIcon{
     text-align: center;
     line-height: 122px;
     font-size: 15px;
     color: white;
 }
 
-.Block:Hover {
+/* .Block:Hover {
     -webkit-transform: scale(1.3);
     -ms-transform: scale(1.3);
     transform: scale(1.3);
-}
+} */
 
-ToolTipHidden :{
-    width: 100%;
-    line-height: 130px;
-    position: absolute;
-    top: 20px;
-}
-
-ToolTipHover:{
-    width: 100%;
-    line-height: 130px;
-    position: absolute;
-    top: 20px;
-}
 

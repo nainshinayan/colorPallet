@@ -1,9 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import ColorPalettePage from './containers/ColorsPalettePage';
 import CartPage from './containers/CartPage';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.css';
 
 
 function App() {

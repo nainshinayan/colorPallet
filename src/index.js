@@ -9,7 +9,6 @@ import { typeDefs } from './graphql/schema';
 import { resolvers } from './graphql/resolvers';
 import { GET_CART_ITEMS, GET_SAVED_PALETTE } from './graphql/queries';
 
-
 const cacheConfig = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -42,34 +41,49 @@ const init = async () => {
     resolvers
   });
 
+  const createCart = function(){
+    cacheConfig.writeQuery({
+      query: GET_CART_ITEMS,
+      data: {
+        colorCart: []
+      }
+    });
+  }
 
+  const createSavedPalette = function(){
+    cacheConfig.writeQuery({
+      query: GET_SAVED_PALETTE,
+      data: {
+        savedPalette: []
+      }
+    });
+  }
+  
   try {
-    const cartItemsObj = cacheConfig.readQuery({
+    var cart = cacheConfig.readQuery({
       query: GET_CART_ITEMS
     });
+    //When app is loaded for the first time, the "colorCart" field is not created in cache.
+    if(!cart)
+      createCart();
+  }catch(error){
+    //To handle flaky behavior from backend which throws exception like "Can't find field 'colorCart' on ROOT_QUERY object".
+    createCart();
+  }
 
+  try{
     const savedPaletteObj = cacheConfig.readQuery({
       query: GET_SAVED_PALETTE
     });
+    //When app is loaded for the first time, the "savedPalette" field is not created in cache.
+    if(!savedPaletteObj)
+    createSavedPalette();
+  }catch(error){ 
+    //To handle flaky behavior from backend which throws exception like "Can't find field 'savedPalette' on ROOT_QUERY object".
+      createSavedPalette();
+  }
+  
 
-    if(!cartItemsObj){
-      cacheConfig.writeQuery({
-        query: GET_CART_ITEMS,
-        data: {
-          colorCart: []
-        }
-      })
-    } 
-
-    if(!savedPaletteObj){
-      cacheConfig.writeQuery({
-        query: GET_SAVED_PALETTE,
-        data: {
-          savedPalette: []
-        }
-      })
-    }
-  } catch{}
 
   const ColorMarket = () => (
     <ApolloProvider client={client}>

@@ -7,8 +7,10 @@ import { GET_CART_ITEMS,GET_SAVED_PALETTE } from '../graphql/queries';
 import { REMOVE_FROM_CART, SAVE_PALETTE, REMOVE_SAVED_PALETTE } from '../graphql/mutations';
 import { useMutation } from '@apollo/react-hooks';
 
-
 const CartPage = () => {
+  /**
+   * user message for input validation
+   */
     const userMessageMap = {
       noMessage : "",
       noName :"Please enter a name!",
@@ -16,51 +18,74 @@ const CartPage = () => {
     };
     const [userMessage, updateMessage] = useState(userMessageMap.noMessage);
     const textBoxRef = useRef(null);
+    /**
+     * REMOVE_FROM_CART is a mutation called to remove a cart item in the cache
+     */
     const [removeFromCart] = useMutation(REMOVE_FROM_CART);
+    /**
+     * SAVE_PALETTE is a mutation function called to save a palette in the cache 
+     */
     const [savePalette] = useMutation(SAVE_PALETTE);
+    /**
+     * REMOVE_SAVED_PALETTE is a mutation function called to remove a palette in the cache 
+     */
     const [removeSavedPalette] = useMutation(REMOVE_SAVED_PALETTE);
-
+    /**
+     * query to get cart item(s) from the cache
+     */
     const {data,error,loading} = useQuery(GET_CART_ITEMS);
+    /**
+     * query to get saved palette(s) from the cache
+     */
     const savedPalettes = useQuery(GET_SAVED_PALETTE);
 
     if (loading || savedPalettes.loading) return 'Loading...';
     if (error || savedPalettes.error) return `Error! ${error.message}`;
-    
   
     let cartItemsList = data?.colorCart ? data.colorCart :[] ;
-    let itemView = getItemView(); 
+    let cartItemView = getCartItemView(); 
     let savedPaletteList = savedPalettes?.data?.savedPalette;
     let paletteView = getPaletteView();
 
-
-  
+    /**
+     * invoked when save palette is clicked by user
+     */
     function onSavePalette(){
 
+      /**
+       * user input validation
+       */
       function trim(value){
           return value.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
       }
-      let palleteName = trim(textBoxRef.current.value);
-      if(palleteName == ""){ 
+      let paletteName = trim(textBoxRef.current.value);
+      if(paletteName == ""){ 
         updateMessage(userMessageMap.noName);
       }else{
         for(var i=0; i<savedPaletteList.length ; i++){
-            if(savedPaletteList[i].name == palleteName){
+            if(savedPaletteList[i].name == paletteName){
               updateMessage(userMessageMap.nameExisting);
               return;
             }
         }
         updateMessage(userMessageMap.noMessage);
-        savePalette({variables: {id: Date.now(), name:palleteName, colors:cartItemsList} });
+        /**
+         * Function to save the palette is invoked if user enters valid name for palette
+         */
+        savePalette({variables: {id: Date.now(), name:paletteName, colors:cartItemsList} });
         textBoxRef.current.value ="";
   
       }
     }
 
-    function getItemView(){
+    /**
+    * This method returns the upper section of the cart page i.e. the list of items in cart. 
+    */
+    function getCartItemView(){
       return (
         cartItemsList.length ? 
             (<>
-                <h3>Your current cart palette</h3>
+                <h3 style ={{marginTop: "80px"}}>Your current cart palette</h3>
                 <PaletteContainer 
                   colorList={cartItemsList} 
                   showDelete={true} 
@@ -73,10 +98,13 @@ const CartPage = () => {
                     <div className = "UserMessage">{userMessage}</div>
                 </div>
                 <hr className = "HorizontalLine"/>
-            </>)  : (<h3>Your cart is empty! Add palette to your cart.</h3>)
+            </>)  : (<h3 style ={{marginTop: "80px"}}>Your cart is empty! Add palette to your cart.</h3>)
         ) 
     }
 
+    /**
+     * This method returns the bottom section of the cart page i.e. the list of saved color palettes. 
+     */
     function getPaletteView(){
       return (
         savedPaletteList?.length ? 
@@ -99,9 +127,8 @@ const CartPage = () => {
         ) 
     }
 
-
     return(
-      <>{itemView}
+      <>{cartItemView}
         {paletteView}
       </>
     )
